@@ -3,9 +3,7 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image:  node:10.16-jessie
-      
+    
     services:
       postgres:
         image: postgres:10.8
@@ -15,6 +13,7 @@ jobs:
           POSTGRES_DB: postgres
         ports:
         - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
       redis:
@@ -23,6 +22,8 @@ jobs:
         - 6379:6379
 
     steps:
-    - uses: actions/checkout@mv1       
+    - uses: actions/checkout@v1     
+    - run: npm ci
+      working-directory: ./postgres
     - run: node client.js
-      working-directory: ./postgres/
+      working-directory: ./postgres
