@@ -4,6 +4,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
+    container:
+      image:  node:10.16-jessie
+
     services:
       postgres:
         image: postgres:10.8
@@ -27,3 +30,8 @@ jobs:
       working-directory: ./postgres
     - run: node client.js
       working-directory: ./postgres
+      env:
+        # use postgres for the host here because we have specified a contaienr for the job.
+        # If we were running the job on the VM this would be localhost
+        POSTGRES_HOST: postgres
+        POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
