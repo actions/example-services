@@ -1,3 +1,3 @@
-# GitHub Actions service contianer examples
+# GitHub Actions service container examples
 
 
