@@ -3,9 +3,7 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image:  node:10.16-jessie
-      
+    
     services:
       postgres:
         image: postgres:10.8
