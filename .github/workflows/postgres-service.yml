@@ -23,7 +23,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1     
-    - run: npm install
+    - run: npm ci
       working-directory: ./postgres
     - run: node client.js
       working-directory: ./postgres
