@@ -22,6 +22,6 @@ jobs:
         - 6379:6379
 
     steps:
-    - uses: actions/checkout@mv1       
+    - uses: actions/checkout@v1       
     - run: node client.js
       working-directory: ./postgres/
