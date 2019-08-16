@@ -28,6 +28,7 @@ jobs:
       working-directory: ./redis
 
     - run: node client.js
+      working-directory: ./redis
       env:
         REDIS_HOST: redis
         REDIS_PORT: ${{ job.services.redis.ports[6379] }}
