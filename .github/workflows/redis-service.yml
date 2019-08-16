@@ -1,3 +1,5 @@
+name: Redis Service Example
+
 on:
   push:
     branches:
@@ -21,6 +23,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+
+    - run: npm ci
+      working-directory: ./redis
+
     - run: node client.js
       env:
         REDIS_HOST: redis
@@ -37,6 +43,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+
+    - run: npm ci
+      working-directory: ./redis
+
     - run: node client.js
       working-directory: ./redis
       env:
