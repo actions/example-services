@@ -29,6 +29,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1     
+    - run: echo $JOB_CONTEXT
+      env:
+        JOB_CONTEXT: ${{ job }}
+        
     - run: npm ci
       working-directory: ./postgres
     - run: node client.js
