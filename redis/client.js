@@ -4,7 +4,7 @@ const redis = require("redis");
 redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
 
 redisClient.on("error", function(err) {
-    console.log("Error " + err);
+    throw new Error("Error " + err);
 });
 
 redisClient.set("string key", "string val", redis.print);
@@ -17,6 +17,7 @@ Array.from({length: 10000}).forEach(function(i) {
 setTimeout(function() {
   Array.from({length: 10000}).forEach(function(i) {
     redisClient.set("key: " + i, "val: " + i, redis.print);
+    redisClient.quit();
   });
 }, 120000);
 redisClient.hkeys("hash key", function (err, replies) {
@@ -24,5 +25,4 @@ redisClient.hkeys("hash key", function (err, replies) {
     replies.forEach(function (reply, i) {
         console.log("    " + i + ": " + reply);
     });
-    redisClient.quit();
 });
