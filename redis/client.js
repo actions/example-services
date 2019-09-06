@@ -10,7 +10,7 @@ redisClient.on("error", function(err) {
 redisClient.set("string key", "string val", redis.print);
 redisClient.hset("hash key", "hashtest 1", "some value", redis.print);
 redisClient.hset(["hash key", "hashtest 2", "some other value"], redis.print);
-Array.from({length: 10000}).forEach(function() {
+Array.from({length: 10000}).forEach(function(i) {
   redisClient.set("key: " + i, "val: " + i, redis.print);
 });
 redisClient.hkeys("hash key", function (err, replies) {
