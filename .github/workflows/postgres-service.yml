@@ -66,7 +66,7 @@ jobs:
     - run: node client.js
       working-directory: ./postgres
       env:
-        # use localhost for the host here because we have specified a container for the job.
-        # If we were running the job on the VM this would be postgres
+        # use localhost for the host here because we are running the job on the VM.
+        # If we were running the job on in a container this would be postgres
         POSTGRES_HOST: localhost
         POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
