@@ -5,8 +5,8 @@ on: push
 jobs:
   container-job:
     runs-on: ubuntu-latest
-    
-    # runs all of the steps inside the specified continer rather than on the VM host.  
+
+    # runs all of the steps inside the specified continer rather than on the VM host.
     # Because of this the network configuration changes from host based network to a container network.
     container:
       image:  node:10.16-jessie
@@ -25,8 +25,8 @@ jobs:
 
     steps:
     - name: Checkout repository code
-      uses: actions/checkout@v1     
-    - name: Run CI 
+      uses: actions/checkout@v1
+    - name: Run CI
       run: npm ci
       working-directory: ./postgres
     - name: Connect to postgres
@@ -35,6 +35,9 @@ jobs:
       env:
         # use postgres for the host here because we have specified a container for the job.
         # If we were running the job on the VM this would be localhost
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: postgres
         POSTGRES_HOST: postgres
         POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
 
@@ -46,10 +49,6 @@ jobs:
     services:
       postgres:
         image: postgres:10.8
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
         ports:
         # will assign a random free host port
         - 5432 #/tcp
@@ -57,7 +56,7 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-    - uses: actions/checkout@v1     
+    - uses: actions/checkout@v1
     - run: npm ci
       working-directory: ./postgres
     - run: node client.js
@@ -65,5 +64,8 @@ jobs:
       env:
         # use localhost for the host here because we are running the job on the VM.
         # If we were running the job on in a container this would be postgres
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: postgres
         POSTGRES_HOST: localhost
         POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
