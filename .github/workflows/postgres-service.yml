@@ -24,10 +24,13 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-    - uses: actions/checkout@v1     
-    - run: npm ci
+    - name: Checkout repository code
+      uses: actions/checkout@v1     
+    - name: Run CI 
+      run: npm ci
       working-directory: ./postgres
-    - run: node client.js
+    - name: Connect to postgres
+      run: node client.js
       working-directory: ./postgres
       env:
         # use postgres for the host here because we have specified a container for the job.
