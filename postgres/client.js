@@ -12,6 +12,8 @@ const pgclient = new Client({
     database: process.env.POSTGRES_DB
 });
 
+console.log("PORT:" + pgclient.port)
+
 pgclient.connect();
 
 pgclient.query('SELECT NOW()', (err, res) => {
