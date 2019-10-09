@@ -1,6 +1,5 @@
 const { Client } = require('pg')
 
-console.log("PORT: " + process.env.POSTGRES_PORT + " HOST:" + process.env.POSTGRES_HOST)
 const pgclient = new Client({
     host: process.env.POSTGRES_HOST,
     port: process.env.POSTGRES_PORT,
@@ -8,7 +7,6 @@ const pgclient = new Client({
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB
 });
-console.log("PORT: " + process.env.POSTGRES_PORT + " HOST:" + process.env.POSTGRES_HOST)
 
 pgclient.connect();
 

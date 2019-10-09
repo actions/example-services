@@ -30,6 +30,8 @@ jobs:
           # The default Redis host is localhost, use Docker host name
           REDIS_HOST: redis
 
+      - run: echo "PORT: " ${{ job.services.redis.ports[6379] }}
+
   vm-job:
     # Use the latest version of the GitHub-hosted ubuntu environment
     runs-on: ubuntu-latest
@@ -58,3 +60,5 @@ jobs:
         env:
           # Default Redis host is localhost
           REDIS_PORT: ${{ job.services.redis.ports[6379] }}
+
+      - run: echo "PORT: " ${{ job.services.redis.ports[6379] }}
