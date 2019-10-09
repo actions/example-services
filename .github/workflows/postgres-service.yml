@@ -35,7 +35,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
-      - run: echo "PORT: " ${{ job.services.postgres.ports[5432] }}
+      - run: echo "PORT: ${{ job.services.postgres.ports[5432] }}"
 
 # Runs all steps on the VM
 # The service containers will use host port binding instead of container networking so you access them via localhost rather than the service name
@@ -67,4 +67,4 @@ jobs:
           POSTGRES_DB: postgres
           POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
 
-      - run: echo "PORT: " ${{ job.services.postgres.ports[5432] }}
+      - run: echo "PORT: ${{ job.services.postgres.ports[5432] }}" 
