@@ -8,6 +8,7 @@ const pgclient = new Client({
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB
 });
+console.log("PORT: " + process.env.POSTGRES_PORT + " HOST:" + process.env.POSTGRES_HOST)
 
 pgclient.connect();
 
@@ -16,5 +17,3 @@ pgclient.query('SELECT NOW()', (err, res) => {
     console.log(res)
     pgclient.end()
 });
-
-console.log("PORT: " + process.env.POSTGRES_PORT + " HOST:" + process.env.POSTGRES_HOST)

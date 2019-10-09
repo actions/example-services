@@ -2,7 +2,7 @@ const redis = require("redis");
 
 console.log("PORT:" + process.env.REDIS_PORT + " HOST: " + process.env.REDIS_HOST)
 redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
-
+console.log("PORT:" + process.env.REDIS_PORT + " HOST: " + process.env.REDIS_HOST)
 redisClient.on("error", function(err) {
     console.log("Error " + err);
 });
@@ -17,4 +17,3 @@ redisClient.hkeys("hash key", function (err, replies) {
     });
     redisClient.quit();
 });
-console.log("PORT:" + process.env.REDIS_PORT + " HOST: " + process.env.REDIS_HOST)
