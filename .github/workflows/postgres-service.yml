@@ -35,7 +35,6 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
-      - run: echo ${{ job.services.postgres.ports[5432] }}
 
 # Runs all steps on the VM
 # The service containers will use host port binding instead of container networking so you access them via localhost rather than the service name
@@ -47,7 +46,7 @@ jobs:
         image: postgres:10.8
         ports:
           # will assign a random free host port
-          - 5432
+          - 5432:5432
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
