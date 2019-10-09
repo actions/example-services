@@ -27,8 +27,6 @@ jobs:
         working-directory: ./redis
         env:
           REDIS_HOST: redis
-          # The
-          #REDIS_PORT: ${{ job.services.redis.ports[6379] }}
 
   vm-job:
     runs-on: ubuntu-latest
@@ -55,5 +53,5 @@ jobs:
         run: node client.js
         working-directory: ./redis
         env:
-          REDIS_HOST: localhost
+          #REDIS_HOST: localhost
           REDIS_PORT: ${{ job.services.redis.ports[6379] }}
