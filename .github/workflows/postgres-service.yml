@@ -14,14 +14,12 @@ jobs:
     services:
       postgres:
         image: postgres:10.8
-        env:
+        #env:
           # POSTGRES_HOST is automatically set in the postgres:10.8 image to 'postgres'
           # POSTGRES_PORT is undefined but set to 5432 when the new client is created in client
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-        #ports:
-        #- 5432:5432
+          #POSTGRES_USER: postgres
+          #POSTGRES_PASSWORD: postgres
+          #POSTGRES_DB: postgres
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
@@ -41,7 +39,6 @@ jobs:
         POSTGRES_PASSWORD: postgres
         POSTGRES_DB: postgres
         POSTGRES_HOST: postgres
-        #POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
 
 # Runs all steps on the VM
 # The service containers will use host port binding instead of container networking so you access them via localhost rather than the service name
@@ -53,7 +50,7 @@ jobs:
         image: postgres:10.8
         ports:
         # will assign a random free host port
-        - 5432 #/tcp
+        - 5432
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
@@ -69,5 +66,4 @@ jobs:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
         POSTGRES_DB: postgres
-        #POSTGRES_HOST: localhost
         POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
