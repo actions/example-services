@@ -56,4 +56,4 @@ jobs:
         working-directory: ./redis
         env:
           REDIS_HOST: localhost
-          #REDIS_PORT: ${{ job.services.redis.ports[6379] }}
+          REDIS_PORT: ${{ job.services.redis.ports[6379] }}
