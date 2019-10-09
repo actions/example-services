@@ -23,9 +23,7 @@ jobs:
         run: npm ci
         working-directory: ./redis
 
-      - run: |
-        echo 'Host: $REDIS_HOST'
-        echo 'Port: $REDIS_PORT'
+      - run: echo 'Host:$REDIS_HOST Port:$REDIS_PORT'
 
       - name: Connect to Redis
         run: node client.js
@@ -34,9 +32,7 @@ jobs:
           # The default Redis host is localhost, use Docker host name
           REDIS_HOST: redis
 
-      - run: |
-        echo 'Host: $REDIS_HOST'
-        echo 'Port: $REDIS_PORT'
+      - run: echo 'Host:$REDIS_HOST Port:$REDIS_PORT'
 
   vm-job:
     # Use the latest version of the GitHub-hosted ubuntu environment
@@ -60,9 +56,7 @@ jobs:
         run: npm ci
         working-directory: ./redis
 
-      - run: |
-        echo 'Host: $REDIS_HOST'
-        echo 'Port: $REDIS_PORT'
+      - run: echo 'Host:$REDIS_HOST Port:$REDIS_PORT'
 
       - name: Connect to Redis
         run: node client.js
@@ -71,6 +65,4 @@ jobs:
           # Default Redis host is localhost
           REDIS_PORT: ${{ job.services.redis.ports[6379] }}
 
-      - run: |
-        echo 'Host: $REDIS_HOST'
-        echo 'Port: $REDIS_PORT'
+      - run: echo 'Host:$REDIS_HOST Port:$REDIS_PORT'
