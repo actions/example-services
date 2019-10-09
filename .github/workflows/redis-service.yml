@@ -1,38 +1,34 @@
 name: Redis Service Example
-
-on:
-  push:
-    branches:
-    - master
-  pull_request:
-    branches:
-    - master
+on: [push, pull_request]
 
 jobs:
   container-job:
     runs-on: ubuntu-latest
+    # Docker Hub container that `container-job` runs in
+    container: node:10.16-buster
 
-    container:
-      image:  node:10.16-jessie
-
+    # Service containers to run with the `container-job`
     services:
+      # Label used to access the service container
       redis:
+        # Docker Hub image
         image: redis
 
     steps:
-    - name: Checkout repository code
-      uses: actions/checkout@v1
+      - name: Checkout repository code
+        uses: actions/checkout@v1
 
-    - name: Run CI
-      run: npm ci
-      working-directory: ./redis
+      - name: Run CI
+        run: npm CI
+        working-directory: ./redis
 
-    - name: Connect to Redis
-      run: node client.js
-      working-directory: ./redis
-      env:
-        REDIS_HOST: redis
-        REDIS_PORT: ${{ job.services.redis.ports[6379] }}
+      - name: Connect to Redis
+        run: node client.js
+        working-directory: ./redis
+        env:
+          REDIS_HOST: redis
+          # The
+          #REDIS_PORT: ${{ job.services.redis.ports[6379] }}
 
   vm-job:
     runs-on: ubuntu-latest

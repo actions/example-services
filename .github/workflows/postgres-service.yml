@@ -15,6 +15,8 @@ jobs:
       postgres:
         image: postgres:10.8
         env:
+          # POSTGRES_HOST is automatically set in the postgres:10.8 image to 'postgres'
+          # POSTGRES_PORT is undefined but set to 5432 when the new client is created in client
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
