@@ -1,5 +1,5 @@
 name: Redis Service Example
-on: [push, pull_request]
+on: push
 
 jobs:
   container-job:
