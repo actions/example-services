@@ -17,14 +17,6 @@ jobs:
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
-    env:
-      # use postgres for the host here because we have specified a container for the job
-      POSTGRES_HOST: postgres
-      # POSTGRES_PORT is undefined but set to 5432 when the new client is created in client.js
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v1
@@ -33,13 +25,16 @@ jobs:
         run: npm ci
         working-directory: ./postgres
 
-      - run: echo "Host:${POSTGRES_HOST} Port:${POSTGRES_PORT}"
-
       - name: Connect to postgres
         run: node client.js
         working-directory: ./postgres
-
-      - run: echo "Host:${POSTGRES_HOST} Port:${POSTGRES_PORT}"
+        env:
+          # use postgres for the host here because we have specified a container for the job
+          POSTGRES_HOST: postgres
+          # POSTGRES_PORT is undefined but set to 5432 when the new client is created in client.js
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
 
 # Runs all steps on the VM
 # The service containers will use host port binding instead of container networking so you access them via localhost rather than the service name
@@ -55,23 +50,18 @@ jobs:
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
-    env:
-      # POSTGRES_HOST is undefined but set to localhost when the new client is created in client.js
-      # If we were running the job on in a container this would be postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-      POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
-
     steps:
       - uses: actions/checkout@v1
 
       - run: npm ci
         working-directory: ./postgres
 
-      - run: echo "Host:${POSTGRES_HOST} Port:${POSTGRES_PORT}"
-
       - run: node client.js
         working-directory: ./postgres
-
-      - run: echo "Host:${POSTGRES_HOST} Port:${POSTGRES_PORT}"
+        env:
+          # POSTGRES_HOST is undefined but set to localhost when the new client is created in client.js
+          # If we were running the job on in a container this would be postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port

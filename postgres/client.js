@@ -1,5 +1,6 @@
 const { Client } = require('pg')
 
+console.log("PORT: " + process.env.POSTGRES_PORT + " HOST:" + process.env.POSTGRES_HOST)
 const pgclient = new Client({
     host: process.env.POSTGRES_HOST,
     port: process.env.POSTGRES_PORT,
@@ -15,3 +16,5 @@ pgclient.query('SELECT NOW()', (err, res) => {
     console.log(res)
     pgclient.end()
 });
+
+console.log("PORT: " + process.env.POSTGRES_PORT + " HOST:" + process.env.POSTGRES_HOST)

@@ -15,10 +15,6 @@ jobs:
         # Docker Hub image
         image: redis
 
-    env:
-      # The default Redis host is localhost, use Docker host name
-      REDIS_HOST: redis
-
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v1
@@ -27,13 +23,12 @@ jobs:
         run: npm ci
         working-directory: ./redis
 
-      - run: echo "Host:${REDIS_HOST} Port:${REDIS_PORT}"
-
       - name: Connect to Redis
         run: node client.js
         working-directory: ./redis
-
-      - run: echo "Host:${REDIS_HOST} Port:${REDIS_PORT}"
+        env:
+          # The default Redis host is localhost, use Docker host name
+          REDIS_HOST: redis
 
   vm-job:
     # Use the latest version of the GitHub-hosted ubuntu environment
@@ -49,10 +44,6 @@ jobs:
         ports:
           - 6379
 
-    env:
-      # Default Redis host is localhost
-      REDIS_PORT: ${{ job.services.redis.ports[6379] }}
-
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v1
@@ -61,10 +52,9 @@ jobs:
         run: npm ci
         working-directory: ./redis
 
-      - run: echo "Host:${REDIS_HOST} Port:${REDIS_PORT}"
-
       - name: Connect to Redis
         run: node client.js
         working-directory: ./redis
-
-      - run: echo "Host:${REDIS_HOST} Port:${REDIS_PORT}"
+        env:
+          # Default Redis host is localhost
+          REDIS_PORT: ${{ job.services.redis.ports[6379] }}
