@@ -56,5 +56,5 @@ jobs:
         run: node client.js
         working-directory: ./redis
         env:
-          #REDIS_HOST: localhost
+          # Default Redis host is localhost
           REDIS_PORT: ${{ job.services.redis.ports[6379] }}
