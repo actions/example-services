@@ -26,8 +26,8 @@ jobs:
         working-directory: ./postgres
 
       - run: |
-        echo Host: $POSTGRES_HOST
-        echo Port: $POSTGRES_PORT
+        echo 'Host: $POSTGRES_HOST'
+        echo 'Port: $POSTGRES_PORT'
 
       - name: Connect to postgres
         run: node client.js
@@ -41,8 +41,8 @@ jobs:
           POSTGRES_DB: postgres
 
       - run: |
-        echo Host: $POSTGRES_HOST
-        echo Port: $POSTGRES_PORT
+        echo 'Host: $POSTGRES_HOST'
+        echo 'Port: $POSTGRES_PORT'
 
 # Runs all steps on the VM
 # The service containers will use host port binding instead of container networking so you access them via localhost rather than the service name
@@ -65,8 +65,8 @@ jobs:
         working-directory: ./postgres
 
       - run: |
-        echo Host: $POSTGRES_HOST
-        echo Port: $POSTGRES_PORT
+        echo 'Host: $POSTGRES_HOST'
+        echo 'Port: $POSTGRES_PORT'
 
       - run: node client.js
         working-directory: ./postgres
@@ -79,5 +79,5 @@ jobs:
           POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
 
       - run: |
-        echo Host: $POSTGRES_HOST
-        echo Port: $POSTGRES_PORT
+        echo 'Host: $POSTGRES_HOST'
+        echo 'Port: $POSTGRES_PORT'
