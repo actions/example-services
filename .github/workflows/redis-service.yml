@@ -3,6 +3,7 @@ on: push
 
 jobs:
   container-job:
+    # Use the latest version of the GitHub-hosted ubuntu environment
     runs-on: ubuntu-latest
     # Docker Hub container that `container-job` runs in
     container: node:10.16-buster
@@ -26,9 +27,11 @@ jobs:
         run: node client.js
         working-directory: ./redis
         env:
+          # The default Redis host is localhost, use Docker host name
           REDIS_HOST: redis
 
   vm-job:
+    # Use the latest version of the GitHub-hosted ubuntu environment
     runs-on: ubuntu-latest
 
     # Service containers to run with the `container-job`
