@@ -10,7 +10,7 @@ on:
 
 jobs:
   container-job:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     # runs all of the steps inside the specified container rather than on the VM host.  
     # Because of this the network configuration changes from host based network to a container network.
@@ -44,7 +44,7 @@ jobs:
 # Runs all steps on the VM
 # The service containers will use host port binding instead of container networking so you access them via localhost rather than the service name
   vm-job:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     services:
       postgres:
