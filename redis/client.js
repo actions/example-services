@@ -15,7 +15,7 @@ redisClient.set("octocat", "Mona the Octocat", redis.print);
 redisClient.hset("species", "octocat", "Cat and Octopus", redis.print);
 // Changes the "octocat" key's field and value
 redisClient.hset(["species", "robotocat", "Cat and Robot"], redis.print);
-// Gets all fields in "octocat" key
+// Gets all fields in "species" key
 redisClient.hkeys("species", function (err, replies) {
     console.log(replies.length + " replies:");
     replies.forEach(function (reply, i) {

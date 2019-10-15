@@ -31,5 +31,5 @@ jobs:
         # Environment variable used by the client.js script to create
         # a new instance of the Redis client.
         env:
-          # The default Redis host is localhost, so we'll n use Docker host name
+          # The host name used to communicate with the Redis service container
           REDIS_HOST: redis

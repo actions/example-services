@@ -2,12 +2,12 @@ name: Redis Service Example
 on: push
 
 jobs:
-
+  # Label of the container job
   vm-job:
     # Use the latest version of the GitHub-hosted ubuntu environment
     runs-on: ubuntu-latest
 
-    # Service containers to run with the `container-job`
+    # Service containers to run with the `vm-job`
     services:
       # Label used to access the service container
       redis:
@@ -15,7 +15,7 @@ jobs:
         image: redis
         #
         ports:
-          # Opens port 6379 on the host and container
+          # Opens port 6379 on the host and service container
           - 6379:6379
 
     steps:
@@ -24,11 +24,16 @@ jobs:
 
       - name: Run CI
         run: npm ci
+        # Directory to run the command in
         working-directory: ./redis
 
       - name: Connect to Redis
         run: node client.js
         working-directory: ./redis
-        env:
-          # Default Redis host is localhost
-          REDIS_PORT: ${{ job.services.redis.ports[6379] }}
+        # # Environment variable used by the client.js script to create
+        # # a new instance of the Redis client.
+        # env:
+        #   # The port opened on the Redis service container
+        #   # You can also just hardcode this value to 6379.
+        #   #   For example: REDIS_PORT: 6379
+        #   REDIS_PORT: ${{ job.services.redis.ports[6379] }}
