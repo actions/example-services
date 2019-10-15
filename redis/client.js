@@ -1,14 +1,18 @@
 const redis = require("redis");
 
-redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
+const redisClient = redis.createClient({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT
+});
+
 redisClient.on("error", function(err) {
     console.log("Error " + err);
 });
 
-redisClient.set("string key", "string val", redis.print);
-redisClient.hset("hash key", "hashtest 1", "some value", redis.print);
-redisClient.hset(["hash key", "hashtest 2", "some other value"], redis.print);
-redisClient.hkeys("hash key", function (err, replies) {
+redisClient.set("octocat", "Mona the Octocat", redis.print);
+redisClient.hset("species", "octocat", "Cat", redis.print);
+redisClient.hset(["species", "octocat", "Cat and Octopus"], redis.print);
+redisClient.hkeys("species", function (err, replies) {
     console.log(replies.length + " replies:");
     replies.forEach(function (reply, i) {
         console.log("    " + i + ": " + reply);

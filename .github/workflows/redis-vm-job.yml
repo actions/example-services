@@ -2,33 +2,6 @@ name: Redis Service Example
 on: push
 
 jobs:
-  container-job:
-    # Use the latest version of the GitHub-hosted ubuntu environment
-    runs-on: ubuntu-latest
-    # Docker Hub container that `container-job` runs in
-    container: node:10.16-buster
-
-    # Service containers to run with the `container-job`
-    services:
-      # Label used to access the service container
-      redis:
-        # Docker Hub image
-        image: redis
-
-    steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v1
-
-      - name: Run CI
-        run: npm ci
-        working-directory: ./redis
-
-      - name: Connect to Redis
-        run: node client.js
-        working-directory: ./redis
-        env:
-          # The default Redis host is localhost, use Docker host name
-          REDIS_HOST: redis
 
   vm-job:
     # Use the latest version of the GitHub-hosted ubuntu environment
@@ -42,6 +15,7 @@ jobs:
         image: redis
         #
         ports:
+          # Opens port 6379 on the host and container
           - 6379:6379
 
     steps:

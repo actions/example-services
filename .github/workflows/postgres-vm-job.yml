@@ -1,0 +1,39 @@
+name: Postgres Service Example
+
+on: push
+
+jobs:
+  # Runs all steps on the VM
+  # The service containers will use host port binding instead of container networking so you access them via localhost rather than the service name
+  vm-job:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:10.8
+        ports:
+          # Opens port 5432 on the host and container
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v1
+
+      - name: Run CI
+        run: npm ci
+        working-directory: ./postgres
+
+      - name: Connect to Postgres
+        run: node client.js
+        working-directory: ./postgres
+        env:
+          # POSTGRES_HOST is undefined but set to localhost when the new client is created in client.js
+          # If we were running the job on in a container this would be postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+
+      - run: echo ${{ job.services.postgres.ports[5432] }}

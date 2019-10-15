@@ -1,0 +1,35 @@
+  name: Redis Service Example
+  on: push
+
+  jobs:
+    # Label of the container job
+    container-job:
+    # You must use a Linux environment when using service containers or container jobs
+    runs-on: ubuntu-latest
+    # Docker Hub image that `container-job` executes in
+    container: node:10.16-buster
+
+    # Service containers to run with the `container-job`
+    services:
+      # Label used to access the service container
+      redis:
+        # Docker Hub image
+        image: redis
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v1
+
+      - name: Run CI
+        run: npm ci
+        # Directory to run the command in
+        working-directory: ./redis
+
+      - name: Connect to Redis
+        run: node client.js
+        working-directory: ./redis
+        # Environment variable used by the client.js script to create
+        # a new instance of the Redis client. 
+        env:
+          # The default Redis host is localhost, so we'll n use Docker host name
+          REDIS_HOST: redis
