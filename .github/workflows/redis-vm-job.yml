@@ -32,5 +32,3 @@ jobs:
         env:
           # Default Redis host is localhost
           REDIS_PORT: ${{ job.services.redis.ports[6379] }}
-
-      - run: echo ${{ job.services.redis.ports[6379] }}

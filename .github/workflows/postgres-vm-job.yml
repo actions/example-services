@@ -35,5 +35,3 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
           POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
-
-      - run: echo ${{ job.services.postgres.ports[5432] }}
