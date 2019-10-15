@@ -1,0 +1,37 @@
+name: Postgres Service Example
+
+on: push
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+
+    # runs all of the steps inside the specified continer rather than on the VM host.
+    # Because of this the network configuration changes from host based network to a container network.
+    container:
+      image:  node:10.16-buster
+
+    services:
+      postgres:
+        image: postgres:10.8
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v1
+
+      - name: Run CI
+        run: npm ci
+        working-directory: ./postgres
+
+      - name: Connect to postgres
+        run: node client.js
+        working-directory: ./postgres
+        env:
+          # use postgres for the host here because we have specified a container for the job
+          POSTGRES_HOST: postgres
+          # POSTGRES_PORT is undefined but set to 5432 when the new client is created in client.js
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
