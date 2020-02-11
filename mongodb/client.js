@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
-const PORT = process.env.PORT || 27017;
-const HOST = process.env.HOST || 'localhost';
+const PORT = process.env.MONGODB_PORT || 27017;
+const HOST = process.env.MONGODB_HOST || 'localhost';
 
 async function main() {
   const client = new MongoClient(`mongodb://${HOST}:${PORT}/dbName`);

@@ -1,0 +1,60 @@
+name: Mongodb Service Example
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+    
+    # runs all of the steps inside the specified container rather than on the VM host.  
+    # Because of this the network configuration changes from host based network to a container network.
+    container:
+      image:  node:10.16-jessie
+
+    services:
+      mongodb:
+        image: mongodb
+        ports:
+        - 27019:27019
+
+    steps:
+    - uses: actions/checkout@v1     
+    - run: npm ci
+      working-directory: ./mongodb
+    - run: node client.js
+      working-directory: ./mongodb
+      env:
+        # use postgres for the host here because we have specified a container for the job.
+        # If we were running the job on the VM this would be localhost
+        MONGODB_HOST: mongodb
+        MONGODB_PORT: ${{ job.services.mongodb.ports[27019] }}
+
+# Runs all steps on the VM
+# The service containers will use host port binding instead of container networking so you access them via localhost rather than the service name
+  vm-job:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: mongo
+        ports:
+        # will assign a random free host port
+        - 27019/tcp
+
+    steps:
+    - uses: actions/checkout@v1     
+    - run: npm ci
+      working-directory: ./mongodb
+    - run: node client.js
+      working-directory: ./mongodb
+      env:
+        # use localhost for the host here because we are running the job on the VM.
+        # If we were running the job on in a container this would be postgres
+        MONGODB_HOST: localhost
+        MONGODB_PORT: ${{ job.services.mongodb.ports[27019] }} # get randomly assigned published port
