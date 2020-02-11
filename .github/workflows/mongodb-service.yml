@@ -30,7 +30,7 @@ jobs:
     - run: node client.js
       working-directory: ./mongodb
       env:
-        # use postgres for the host here because we have specified a container for the job.
+        # use mongodb for the host here because we have specified a container for the job.
         # If we were running the job on the VM this would be localhost
         MONGODB_HOST: mongodb
         MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }}
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
+      mongodb:
         image: mongo
         ports:
         # will assign a random free host port
@@ -55,6 +55,6 @@ jobs:
       working-directory: ./mongodb
       env:
         # use localhost for the host here because we are running the job on the VM.
-        # If we were running the job on in a container this would be postgres
+        # If we were running the job on in a container this would be mongodb
         MONGODB_HOST: localhost
         MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }} # get randomly assigned published port
