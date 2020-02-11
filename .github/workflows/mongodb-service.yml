@@ -19,7 +19,7 @@ jobs:
 
     services:
       mongodb:
-        image: mongodb
+        image: mongo
         ports:
         - 27019:27019
 
