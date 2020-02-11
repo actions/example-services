@@ -21,7 +21,7 @@ jobs:
       mongodb:
         image: mongo
         ports:
-        - 27019:27019
+        - 27017:27017
 
     steps:
     - uses: actions/checkout@v1     
@@ -33,7 +33,7 @@ jobs:
         # use postgres for the host here because we have specified a container for the job.
         # If we were running the job on the VM this would be localhost
         MONGODB_HOST: mongodb
-        MONGODB_PORT: ${{ job.services.mongodb.ports[27019] }}
+        MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }}
 
 # Runs all steps on the VM
 # The service containers will use host port binding instead of container networking so you access them via localhost rather than the service name
@@ -45,7 +45,7 @@ jobs:
         image: mongo
         ports:
         # will assign a random free host port
-        - 27019/tcp
+        - 27017/tcp
 
     steps:
     - uses: actions/checkout@v1     
@@ -57,4 +57,4 @@ jobs:
         # use localhost for the host here because we are running the job on the VM.
         # If we were running the job on in a container this would be postgres
         MONGODB_HOST: localhost
-        MONGODB_PORT: ${{ job.services.mongodb.ports[27019] }} # get randomly assigned published port
+        MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }} # get randomly assigned published port
