@@ -3,10 +3,10 @@ name: Redis Service Example
 on:
   push:
     branches:
-    - master
+    - main
   pull_request:
     branches:
-    - master
+    - main
 
 jobs:
   container-job:
